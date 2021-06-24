@@ -1,8 +1,8 @@
 package com.redspot;
 
 public class Human implements Movable {
-    float jumpHeight = 0.8F;
-    int runDistance = 200;
+    final static float jumpHeight = 0.8F;
+    final static int runDistance = 200;
     boolean ableToContinue = true;
 
     @Override

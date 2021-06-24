@@ -1,8 +1,8 @@
 package com.redspot;
 
 public class Cat implements Movable {
-    float jumpHeight = 1.5F;
-    int runDistance = 150;
+    final static float jumpHeight = 1.5F;
+    final static int runDistance = 150;
     boolean ableToContinue = true;
     @Override
     public void run(int distance) {

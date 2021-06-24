@@ -1,8 +1,8 @@
 package com.redspot;
 
 public class Robot implements Movable {
-    float jumpHeight = 3;
-    int runDistance = 1000;
+    final static float jumpHeight = 3;
+    final static int runDistance = 1000;
     boolean ableToContinue = true;
     @Override
     public void run(int distance) {
