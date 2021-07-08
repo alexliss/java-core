@@ -78,17 +78,17 @@ public class Main {
         // Task 3
 
         final String[] array5 = new String[] {"hehe", "meow", "charger", "konserva", "sock", "charger", "hehe", "MEOW", "meow", "charger"};
-        final HashMap<String, Integer> copy = new HashMap<>();
+        final HashMap<String, Integer> array5Copy = new HashMap<>();
 
         System.out.println(Arrays.toString(array5) + "\n");
 
-        int value = 0;
+        int value;
         for (String str: array5) {
-            value = copy.getOrDefault(str, 0);
-            copy.put(str, value + 1);
+            value = array5Copy.getOrDefault(str, 0);
+            array5Copy.put(str, value + 1);
         }
 
-        System.out.println(copy);
+        System.out.println(array5Copy);
 
         Phonebook phonebook = new Phonebook();
         phonebook.add("Кукушкин", 88005553535L);
