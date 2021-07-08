@@ -8,6 +8,9 @@ import java.util.HashMap;
 
 public class Main {
 
+    static final int SIZE = 10_000_000;
+    static final int HALF = SIZE / 2;
+
     public static void main(String[] args) {
         // First task
         Movable[] contestants = new Movable[] { new Human(), new Cat(), new Robot() };
@@ -102,5 +105,45 @@ public class Main {
         System.out.println(phonebook.get("Сова"));
         System.out.println(phonebook.get("Горемыкин"));
 
+        task5Fun();
+        task5MultithreadedFun();
+
+    }
+
+    private static void task5Fun() {
+        float[] arr = new float[SIZE];
+        Arrays.fill(arr, 1);
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (float) (arr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+        }
+        System.out.println("Метод в одном потоке: " + (System.currentTimeMillis() - startTime) + " мс");
+    }
+
+    private static void task5MultithreadedFun() {
+        float[] arr = new float[SIZE];
+        Arrays.fill(arr, 1);
+        long startTime = System.currentTimeMillis();
+        float[] leftHalf = new float[HALF];
+        float[] rightHalf = new float[HALF];
+        System.arraycopy(arr, 0, leftHalf, 0, HALF);
+        System.arraycopy(arr, HALF, rightHalf, 0, HALF);
+        System.out.println("Деление на два массива: " + (System.currentTimeMillis() - startTime) + " мс");
+        ArrayThread thread1 = new ArrayThread(leftHalf, 0);
+        ArrayThread thread2 = new ArrayThread(rightHalf, HALF);
+        thread1.start();
+        thread2.start();
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        long copyTimeStart = System.currentTimeMillis();
+        System.arraycopy(thread1.getArray(), 0, arr, 0, HALF);
+        System.arraycopy(thread2.getArray(), 0, arr, HALF, HALF);
+        long endTime = System.currentTimeMillis();
+        System.out.println("Вставка результатов: " + (endTime - copyTimeStart) + " мс");
+        System.out.println("Общее время: " + (endTime - startTime) + " мс");
     }
 }
