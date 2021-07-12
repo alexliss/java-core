@@ -8,25 +8,25 @@ import java.util.HashMap;
 
 public class Main {
 
-    static final int SIZE = 10_000_000;
+    static final int SIZE = 10_000_001;
     static final int HALF = SIZE / 2;
 
     public static void main(String[] args) {
         // First task
-        Movable[] contestants = new Movable[] { new Human(), new Cat(), new Robot() };
-        Obstacle[] obstacles = new Obstacle[] {
+        Movable[] contestants = new Movable[]{new Human(), new Cat(), new Robot()};
+        Obstacle[] obstacles = new Obstacle[]{
                 new Wall(0.5F),
                 new Treadmill(200),
                 new Wall(2.5F),
                 new Treadmill(700)};
-        for (Movable contestant: contestants) {
-            for (Obstacle obstacle: obstacles) {
+        for (Movable contestant : contestants) {
+            for (Obstacle obstacle : obstacles) {
                 obstacle.goThough(contestant);
             }
         }
 
         // Second task
-        String[][] array = new String[][] {
+        String[][] array = new String[][]{
                 {"2", "8", "16", "32"},
                 {"13", "7", "3", "1"},
                 {"25", "2", "4", "3"},
@@ -43,7 +43,7 @@ public class Main {
                 {"25", "2", "4", "3"},
                 {"3", "9", "5", "0"}
         };
-        String[][] array4 = new String[][] {
+        String[][] array4 = new String[][]{
                 {"2", "8", "16", "32"},
                 {"13", "7", "3", "1"},
                 {"25", "2", "4", "3"},
@@ -80,13 +80,13 @@ public class Main {
 
         // Task 3
 
-        final String[] array5 = new String[] {"hehe", "meow", "charger", "konserva", "sock", "charger", "hehe", "MEOW", "meow", "charger"};
+        final String[] array5 = new String[]{"hehe", "meow", "charger", "konserva", "sock", "charger", "hehe", "MEOW", "meow", "charger"};
         final HashMap<String, Integer> copy = new HashMap<>();
 
         System.out.println(Arrays.toString(array5) + "\n");
 
         int value = 0;
-        for (String str: array5) {
+        for (String str : array5) {
             value = copy.getOrDefault(str, 0);
             copy.put(str, value + 1);
         }
@@ -124,13 +124,23 @@ public class Main {
         float[] arr = new float[SIZE];
         Arrays.fill(arr, 1);
         long startTime = System.currentTimeMillis();
-        float[] leftHalf = new float[HALF];
-        float[] rightHalf = new float[HALF];
-        System.arraycopy(arr, 0, leftHalf, 0, HALF);
-        System.arraycopy(arr, HALF, rightHalf, 0, HALF);
-        System.out.println("Деление на два массива: " + (System.currentTimeMillis() - startTime) + " мс");
+        float[] leftHalf;
+        float[] rightHalf;
+        if (arr.length % 2 == 0) {
+            leftHalf = new float[arr.length / 2];
+            rightHalf = new float[arr.length / 2];
+            System.arraycopy(arr, 0, leftHalf, 0, arr.length / 2);
+            System.arraycopy(arr, arr.length / 2, rightHalf, 0, arr.length / 2);
+            System.out.println("Деление на два массива: " + (System.currentTimeMillis() - startTime) + " мс");
+        } else {
+            leftHalf = new float[arr.length / 2];
+            rightHalf = new float[arr.length / 2 + 1];
+            System.arraycopy(arr, 0, leftHalf, 0, arr.length / 2);
+            System.arraycopy(arr, arr.length / 2, rightHalf, 0, arr.length / 2 + 1);
+            System.out.println("Деление на два массива: " + (System.currentTimeMillis() - startTime) + " мс");
+        }
         ArrayThread thread1 = new ArrayThread(leftHalf, 0);
-        ArrayThread thread2 = new ArrayThread(rightHalf, HALF);
+        ArrayThread thread2 = new ArrayThread(rightHalf, arr.length / 2);
         thread1.start();
         thread2.start();
         try {

@@ -6,7 +6,7 @@ public class ArrayThread extends Thread {
 
     public ArrayThread(float[] array, int startIndex) {
         this.array = array;
-        this.startIndex= startIndex;
+        this.startIndex = startIndex;
     }
 
     public float[] getArray() {
