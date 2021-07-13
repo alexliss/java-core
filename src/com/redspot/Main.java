@@ -124,23 +124,13 @@ public class Main {
         float[] arr = new float[SIZE];
         Arrays.fill(arr, 1);
         long startTime = System.currentTimeMillis();
-        float[] leftHalf;
-        float[] rightHalf;
-        if (arr.length % 2 == 0) {
-            leftHalf = new float[arr.length / 2];
-            rightHalf = new float[arr.length / 2];
-            System.arraycopy(arr, 0, leftHalf, 0, arr.length / 2);
-            System.arraycopy(arr, arr.length / 2, rightHalf, 0, arr.length / 2);
-            System.out.println("Деление на два массива: " + (System.currentTimeMillis() - startTime) + " мс");
-        } else {
-            leftHalf = new float[arr.length / 2];
-            rightHalf = new float[arr.length / 2 + 1];
-            System.arraycopy(arr, 0, leftHalf, 0, arr.length / 2);
-            System.arraycopy(arr, arr.length / 2, rightHalf, 0, arr.length / 2 + 1);
-            System.out.println("Деление на два массива: " + (System.currentTimeMillis() - startTime) + " мс");
-        }
+        float[] leftHalf = new float[arr.length / 2];
+        float[] rightHalf = new float[arr.length - leftHalf.length];
+        System.arraycopy(arr, 0, leftHalf, 0, leftHalf.length);
+        System.arraycopy(arr, leftHalf.length, rightHalf, 0, rightHalf.length);
+        System.out.println("Деление на два массива: " + (System.currentTimeMillis() - startTime) + " мс");
         ArrayThread thread1 = new ArrayThread(leftHalf, 0);
-        ArrayThread thread2 = new ArrayThread(rightHalf, arr.length / 2);
+        ArrayThread thread2 = new ArrayThread(rightHalf, leftHalf.length);
         thread1.start();
         thread2.start();
         try {
